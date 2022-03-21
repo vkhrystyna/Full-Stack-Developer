@@ -1,0 +1,41 @@
+﻿Create new folder src
+
+in src create folders entities, plugins, services, validators, config.json, routes.ts, server.ts
+
+in config.json 
+
+{
+  "db": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "newradalarm",
+    "user": "newradalarm",
+    "password": "1111"
+  },
+  "app": {
+    "host": "127.0.0.1",
+    "port": 8086
+  }
+}
+
+in entities create metric.ts, station.ts
+
+in station.ts додаємо entity stations та import from typeorm
+
+in metric.ts додаємо entity metrics та import from typeorm
+
+in station.ts import Metric
+in metric.ts import Station
+
+in index.ts  connection with database and import
+
+in services create metric.ts, station.ts тут розміщуємо всі функції по метриках і станціях + необхідні імпорти+ export (function: findStations, findOneStation, createStation, updateStation, deleteStation, createMetric, findStationMetric, findActiveMetrics, findAverageMetrics)
+
+in plugins create err-handler.ts (тут розміщуємо function errHandler)
+
+in validators create index.ts (тут розміщуємо функції validate)
+ 
+in routs.ts (закидуємо запити)
+
+in server.ts connection with server
+

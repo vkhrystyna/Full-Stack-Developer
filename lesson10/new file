@@ -1,0 +1,237 @@
+﻿1 частина Отримати перелік з адресами станцій
+
+https://angular.io/guide/setup-local
+
+Create new project
+
+npm install -g @angular/cli
+
+(nvm ls-remote)
+nvm install 16.14.0
+nvm use 16.14.0
+
+npm run start
+
+ng g c station-list
+
+інформацію виводимо через app.component.html 
+selector створюється автоматично в station-list.component.ts
+
+Компонент отримує дані з сервера через сервіси
+
+ng g module app-routing
+
+in app-routing.module.ts
+const routes: Routes =
+  [{path: 'stations', component: StationListComponent }
+  ];
+
+create folder enteties
+in entities create station.ts
+in station.ts описуємо елементи таблиці Station
+
+in station-list.component.ts
+
+export class StationListComponent implements OnInit{
+
+@Input() stations?: Station[];
+constructor() { }
+
+ngOnInit(): void{
+}
+}
+
+in station-list.component.html
+
+<li *ngFor="let station of stations">
+  {{station.address}}
+</li>
+
+in app.module add StationListComponent
+
+in app.component.ts
+
+stations: Station[] = [];
+
+
+  constructor(private stationService:StationService ){ }
+
+  ngOnInit(): void {
+
+    this.stationService.getStations().subscribe(st => {
+      this.stations = st;
+    })
+  }
+
+ng g service (в сервісах прописуємо функції, щоб отримати станцію)
+
+in station.service.ts
+@Injectable({
+  providedIn: 'root'
+})
+export class StationService {
+
+  constructor(private http: HttpClient) { }
+  public getStations(): Observable<Station[]> {
+    return this.http.get<Station[]>(`http://127.0.0.1:8087/stations`)
+  }
+
+}
+
+in app.component.html передаємо селектор app-station-list у вигляді тегу і в ньому передаємо [stations]="stations"
+
+in station.list.component.html створити таблицю в якій передати id, address, status
+
+<tr>
+  <td>
+    {{station?.id}}
+  </td>
+  <td>
+    {{station?.address}}
+  </td>
+  <td>
+    {{station?.status}}
+  </td>
+</tr>
+
+3 частина отримати метрики станцій
+
+in entities create metric.ts(описуємо елементи таблиці Metric)
+
+ng g c station-details
+
+in add.module add StationDetailsComponent
+
+in app-routing.module.ts add path:'station/:id', component: StationDetailsComponent}
+
+in app.component.ts
+export class AppComponent {
+  title = 'Radalarm Client';
+
+  constructor( ){ }
+
+  ngOnInit(): void {
+  }
+
+}
+
+in app.component.html
+
+h1>{{title}}</h1>
+
+<router-outlet></router-outlet>
+
+in station-list.component.ts
+
+export class StationListComponent implements OnInit {
+
+  stations?: Station[];
+
+  constructor(private stationService:StationService) { }
+
+  ngOnInit(): void {
+    this.stationService.getStations().subscribe(st => {
+      this.stations = st;
+    })
+  }
+
+}
+
+in station-details.component.ts
+
+@Component({
+  selector: 'app-station-details',
+  templateUrl: './station-details.component.html',
+  styleUrls: ['./station-details.component.css']
+})
+export class StationDetailsComponent implements OnInit {
+
+  station?: Station;
+  metrics: Metric [] = [];
+  id: number = 0;
+
+  constructor(private stationService:StationService, private route:ActivatedRoute) {  }
+
+  ngOnInit(): void {
+
+    this.route.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
+
+      this.stationService.getStation(this.id).subscribe( (st?:Station) => {
+        this.station = st;
+      })
+
+      this.stationService.getMetrics(this.id).subscribe( (mt:Metric[]) => {
+        this.metrics = mt;
+      })
+
+    })
+
+
+
+  }
+
+}
+
+in station-details.component.html
+
+<div>ID: {{station?.id}}</div>
+<div>Address: {{station?.address}}</div>
+<div>Status: {{station?.status}}</div>
+
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Value
+    </th>
+  </tr>
+  <tr *ngFor= "let m of metrics">
+    <td>
+      {{m.id}}
+    </td>
+    <td>
+      {{m.value}}
+    </td>
+  </tr>
+</table>
+
+in station.service.ts
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StationService {
+
+  constructor(private http: HttpClient) {
+  }
+
+  public getStations(): Observable<Station[]> {
+    return this.http.get<Station[]>(`http://127.0.0.1:8087/stations`)
+  }
+
+  public getStation(stationId: number): Observable<Station> {
+    return this.http.get<Station>(`http://127.0.0.1:8087/stations/${stationId}`)
+  }
+
+  public getMetrics(stationId: number): Observable<Metric[]> {
+    return this.http.get<Metric[]>(`http://127.0.0.1:8087/stations/${stationId}/metrics`)
+  }
+
+}
+
+in app.component.ts
+
+export class AppComponent {
+  title = 'Radalarm Client';
+
+  constructor( ){ }
+
+  ngOnInit(): void {
+  }
+
+}
+
