@@ -1,0 +1,48 @@
+﻿Create html
+script
+
+створити функцію, що отримує станції і повертає об’єкт
+
+async function name1(){
+let GetStation =’url address’;
+let response= await fethc (var_name1); (fetch метод, щоб зробити запит на сервер,await чекає поки проміс праворуч не виконається і повертає його результат)
+return await response.json() (повернути в форматі json)
+}
+
+створити функцію, щоб оновити список станцій
+
+async function name(station){
+	station =await GetStation(); (station  повертає результат GetStation)
+
+створюємо дві змінні, що повязати їх з елементами з body
+
+	var stationUL = document.getElementById("stations");
+      var messageP  = document.getElementById("empty_message");
+
+	stationUL.innerHTML = "";
+      hasActiveStations = false;
+
+пройтися по отриманому масиву і вивести активні станції
+
+            for(let i = 0; i < stations.length; i++){
+                if (+stations[i].status) {
+                    var newStation = document.createElement("li");
+               	  newStation.innerText = `${stations[i].id} ${stations[i].address}`;
+                    stationUL.appendChild(newStation)  (appendChild, щоб помістити в stationUl елемент newStation)
+                    hasActiveStations = true;
+                    console.log(`Stations №${stations[i].id} is active`);
+                }
+            }
+
+якщо немає активних станцій, вивести про це повідомлення
+
+            messageP.innerText = hasActiveStations? "" : 'NO ACTIVE STATION';
+        }
+}
+
+
+in body create button for function RefreshStation
+create ul, div
+
+чи обовязково class в div
+innerHTML?
