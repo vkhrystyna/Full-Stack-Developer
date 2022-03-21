@@ -1,0 +1,40 @@
+﻿1. create style
+	body{background-color:green;}
+2. in body create button
+	onclick=”function name”>button name<
+3. create script
+	function function_name () 
+		{var a= 
+		var b= }
+		alert () - пояснити різницю між типами даних
+4. create ul id=”ul_name”
+5. in function 
+	var var1_name= document.getElementById(“ul_name”) (доступитися до ul)
+	var var2_name= document.createElement(“li”) (create li);
+	var2_name.innerText = “text”
+	виводимо в консоль (там побачимо улумент li)
+	var1_name.append(var2_name); (щоб отримати в свореній раніше ul наш text)
+6. create div id=”div_name”>text<
+7. in function 
+	var var_name=document.getElementById(“div_name”)
+		var_name.innerText = “text”; (щоб замінити текст в div);
+
+bubbleSort
+
+1. create script
+	let array_name=[elements]
+	function function_name (array,index) {
+		let name =false;
+		for(){
+			if()])}}
+		return name and function_name
+	function_name(array_name, array_name.length);
+	console.log (‘text’, aaray_name)
+	
+
+
+	
+
+
+	
+
