@@ -1,0 +1,15 @@
+﻿script
+var_name1 = prompt('Enter JSON');
+let var_name2 = JSON.parse(var_name1);
+let hasActiveStations = false
+пройтися по масиву і отримати активні
+cтанції з статусом true
+for(let i = 0; i &lt; stations.length; i++){            
+      if (+stations[i].status) 
+           hasActiveStations = true;
+           console.log(`Stations №${stations[i].id} is
+active`); }}
+якщо активних станцій немає вивести
+повідомлення No active station
+ if(!hasActiveStations) {
+<p>alert(‘No actine station’)}

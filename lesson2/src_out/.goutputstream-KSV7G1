@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<script type=""
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><p>let
+var_name1 = prompt('Enter JSON');</p>
+<p>let var_name2 = JSON.parse(var_name1);</p>
+<p>let hasActiveStations = false</p>
+<p>пройтися по масиву і отримати активні
+cтанції з статусом true</p>
+<p>for(let i = 0; i &lt; stations.length; i++){            
+</p>
+<p>        if (+stations[i].status) {</p>
+<p>            hasActiveStations = true;</p>
+<p>            console.log(`Stations №${stations[i].id} is
+active`); }}</p>
+<p>якщо активних станцій немає вивести
+повідомлення No active station</p>
+<p>   if(!hasActiveStations) {</p>
+<p>alert(‘No actine station’)}</p>
+</body>
+</html>
