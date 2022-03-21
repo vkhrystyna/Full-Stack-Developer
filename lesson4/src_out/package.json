@@ -1,0 +1,19 @@
+{
+  "name": "full-stack-js-developer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node script.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "fs.promises": "^0.1.2",
+    "jquery": "^3.6.0",
+    "webpack": "^5.68.0"
+  }
+}

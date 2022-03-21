@@ -1,0 +1,94 @@
+﻿Інсталюємо npm та express
+
+npm -v яка версія
+
+npm init створює файл package.json
+
+npm install встановлює пакети вказвні в package.json
+
+package-lock.json встановлюється автоматично
+
+npm install express
+
+створюємо файл script.js, який буде містити код
+
+const express = require('express')
+const app = express()
+
+app.get('/', function (req, res) {
+  res.send('Hello World')
+})
+
+app.listen(3000)
+npm run start щоб запустити
+
+створюємо запит, щоб отримати станції і перетворимо в об’єкт
+
+app.get('/stations-hardcoded', (req, res) => {
+    res.send(JSON.parse());
+
+створюємо запит, щоб отримати станції з файлу, спершу створюємо файл database.json, який містить дані
+
+npm install cors  
+
+додаємо в server.js
+
+const cors = require('cors');
+
+app.get('/stations-from-file', (req, res) => {
+    fs.readFile('./database.json').then(data => {
+        res.send(JSON.parse(data));
+    }).catch(err => console.error(err));
+});
+
+
+створюємо post, щоб додати новий елемент в базу даних
+
+npm install promise-fs  (fs – модуль для роботи з файлами)
+в запиті post потрібно прочитати дані з наявної бази баних і перетворити їх в об’єкт, методом push додати нову станцію і все отримане записати і перетворити в стрінгу)
+
+app.post('/stations', (req, res) =>{                
+    fs.readFile('./database.json').then(data => {
+        const stationArray = JSON.parse(data)
+        const newStation = req.body;
+        stationArray.push(newStation);
+        fs.writeFile('./database.json', JSON.stringify(stationArray)).then(() =>{
+            res.sendStatus(200);
+        })
+    }).catch(err => console.error(err));
+})
+
+запит на видалення станції (отримуємо з файла, робимо об’єкт, проходимося по масиву станцій, що вибрати ту, що потрібно видалити, повертаємо записану стрінгу)
+
+app.delete('/stations/:id', (req, res) => {
+    fs.readFile('./database.json').then(data => {
+        let stations = JSON.parse(data);
+        for (let index = 0; index < stations.length; index++) {
+
+(req.params повертає значення параметру зі специфічним ім’ям, у нашому випадку по id)
+            if (stations[index].id == req.params.id) {  
+                stations.splice(index, 1);  (видаляє один елемент по індексу index)
+                return fs.writeFile('./database.json', JSON.stringify(stations)).then(() => {
+                    res.sendStatus(204);
+                });
+            }
+        }
+        res.sendStatus(404);
+    }).catch(err => console.error(err));
+});
+
+
+
+
+
+
+
+
+
+req.body, cors, 
+
+
+
+
+
+
