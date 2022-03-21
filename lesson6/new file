@@ -1,0 +1,20 @@
+﻿npm install mysql –save -d
+
+mysql -u root
+
+password
+
+CREATE DATABASE name
+
+CREATE USER 'newradalarm'@'%' IDENTIFIED WITH mysql_native_password BY '1111';
+
+GRANT ALL PRIVILEGES ON newradalarm.* TO 'newradalarm'@'%';
+
+flush privileges;
+
+CREATE TABLES STATIONS
+
+
+
+
+

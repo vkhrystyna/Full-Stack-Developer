@@ -1,0 +1,107 @@
+﻿CREATE TABLE `region` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `station` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) DEFAULT NULL,
+  `status` tinyint NOT NULL,
+  `region_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `region_id_idx` (`region_id`),
+  CONSTRAINT `region_id` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `metric` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `value` double NOT NULL,
+  `station_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `station_id_idx` (`station_id`),
+  CONSTRAINT `station_id` FOREIGN KEY (`station_id`) REFERENCES `station` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE metric ADD station_id int NOT NULL, KEY `station_id_idx` (`station_id`), CONSTRAINT `station_id` FOREIGN KEY (`station_id`) REFERENCES `station` (`id`) ON DELETE CASCADE
+
+
+
+CREATE TABLE `person` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(45) NOT NULL,
+  `last_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `station_person` (
+  `station_id` int NOT NULL,
+  `person_id` int NOT NULL,
+  KEY `st_id_idx` (`station_id`),
+  KEY `p_id_idx` (`person_id`),
+  CONSTRAINT `p_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  CONSTRAINT `st_id` FOREIGN KEY (`station_id`) REFERENCES `station` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO region (`title`) VALUES ('Europe');
+INSERT INTO region (`title`) VALUES ('USA');
+INSERT INTO region (`title`) VALUES ('Asia');
+INSERT INTO region (`title`) VALUES ('Africa');
+
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('Lviv', true, 1);
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('Montenegro', false, 1);
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('Helsinki', true, 1);
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('NY', true, 2);
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('LA', true, 2);
+INSERT INTO station (`address`,`status`,`region_id`) VALUES ('Pekin', true, 3);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 11.4, 1);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', 8.4, 1);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 9.6, 1);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 12.5, 1);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 14.1, 1);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 21.4, 2);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', 18.4, 2);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 19.2, 2);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 22.1, 2);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 24.1, 2);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 1.4, 3);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', -2.4, 3);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 0.6, 3);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 1.5, 3);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 2.1, 3);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 15.4, 4);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', 18.4, 4);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 14.6, 4);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 12.5, 4);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 15.1, 4);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 25.4, 5);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', 26.4, 5);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 25.6, 5);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 26.5, 5);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 26.1, 5);
+
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-10', 6.4, 6);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-11', 9.4, 6);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-12', 7.6, 6);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-13', 11.5, 6);
+INSERT INTO metric (`date`,`value`,`station_id`) VALUES ('2021-09-14', 13.1, 6);
+
+INSERT INTO person ( `first_name`, `last_name`) VALUES ('Ilon','Mask');
+INSERT INTO person ( `first_name`, `last_name`) VALUES ('Ivan','Vasilyevych');
+INSERT INTO person ( `first_name`, `last_name`) VALUES ('Tom','Cruise');
+
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (1,1);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (1,3);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (2,2);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (3,1);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (4,1);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (5,1);
+INSERT INTO station_person (`station_id`,`person_id`) VALUES (5,3);
+
