@@ -1,0 +1,37 @@
+﻿In app.module add BrowserAnimationsModule
+
+add dependencies animation   npm install @angular/animation -s
+
+є можливість всю анімацію робити в компоненті, але краще винести в окремий файл, тому створюємо station-list.animations.ts
+
+in station-list.animations.ts
+
+import {animate, state, style, transition, trigger} from "@angular/animations";
+
+суть роботи полягає в заданні різних станів певним компонентам
+
+trigger запускає анімацію і зберігає в собі інші функції анімації, складається з імені та масиву в якому містяться інші виклики функцій анімації. 
+
+trigger(‘name’, [AnamationMetaData])
+
+State створює набір стилів, які потрібно використати при переході до заданого стану, на стан можна посилатися за його назвою.
+
+state(‘name’, style({object}))
+
+для переходу між станами використовуємо transition, це стрінга або функція, яка порівнює попередній і поточний стан
+
+:enter/:leave, which indicates that the transition's animations should occur when the element enters or exists the DOM
+
+export const flyIn = trigger('flyIn',[
+  state('in', style({transform: 'translateX(0)', height:'50px'})),
+  transition(':enter',[
+    style({backgroundColor:'#dddddd', transform: 'translateX(-100px)'}),
+    animate('2s 100ms ease-out')
+  ])
+])
+
+in station-list.component.ts
+
+add in component animations: [flyIn]
+
+in station-list.component.html [@flyIn] = "'in'"
